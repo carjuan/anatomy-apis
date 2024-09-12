@@ -43,7 +43,10 @@ const handlers = {
       });
     },
     "/blogs": (req, res) => {
-      res.writeHead(200, { "Content-Type": "application/json" });
+      res.writeHead(200, {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      });
       res.end(
         JSON.stringify({
           data: "You initialized a GET request and reached blogs end point. End of the response",
@@ -57,6 +60,18 @@ const handlers = {
           data: "You initialized a GET request and reached notes end point. End of the response",
         }),
       );
+    },
+  },
+  // Preflight requests. Use in custom middleware
+  OPTIONS: {
+    "/blogs": (req, res) => {
+      console.log(req.url);
+      res.writeHead(200, {
+        Allow: "GET",
+        Date: new Date(),
+        Server: "Custom Server",
+      });
+      res.end();
     },
   },
 };
