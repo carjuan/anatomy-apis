@@ -30,6 +30,10 @@ const handlers = {
           });
       });
     },
+    // NOTE: Any XHR/Fetch request coming from this script
+    // will no be blocked by the 'same-origin policy' as it is the same oring/host.
+    // The server that served the 'index.html' file is the same as the one
+    // handling XHR/Fetch requests fired from 'script.js' to fetch resoures
     "/public/assets/script.js": (req, res) => {
       res.writeHead(200, { "Content-Type": "/" });
       open("./public/assets/script.js").then((fd) => {
