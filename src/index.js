@@ -95,10 +95,9 @@ const handlers = {
   },
   // Preflight requests. Use in custom middleware
   OPTIONS: {
-    "/": (req, res) => {
-      console.log(req.url);
+    "/": (_, res) => {
       res.writeHead(200, {
-        Allow: "GET",
+        Allow: Object.keys(handlers).join(", "),
         Date: new Date(),
         Server: "Custom Server",
       });
