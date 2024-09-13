@@ -74,9 +74,28 @@ const handlers = {
       );
     },
   },
+  POST: {
+    "/blogs": (req, res) => {
+      let requestBody = "";
+
+      // NOTE: this event should be fired
+      // as the HTTP request header 'Content-Length' is included
+      // with a value other than and greater to 0
+      req.on("data", (chunk) => {
+        requestBody += chunk;
+      });
+
+      req.on("end", () => {
+        // We are done reading the request content-length
+        // then we can now parse the body
+        console.log(requestBody);
+      });
+      console.log(req.url);
+    },
+  },
   // Preflight requests. Use in custom middleware
   OPTIONS: {
-    "/blogs": (req, res) => {
+    "/": (req, res) => {
       console.log(req.url);
       res.writeHead(200, {
         Allow: "GET",
