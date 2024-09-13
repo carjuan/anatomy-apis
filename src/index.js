@@ -35,21 +35,29 @@ const handlers = {
     // The server that served the 'index.html' file is the same as the one
     // handling XHR/Fetch requests fired from 'script.js' to fetch resoures
     "/public/assets/script.js": (req, res) => {
-      res.writeHead(200, { "Content-Type": "/" });
-      open("./public/assets/script.js").then((fd) => {
-        fd.createReadStream()
-          .on("data", (chunk) => {
-            res.write(chunk);
-          })
-          .on("close", () => {
-            res.end();
-          });
-      });
+      open("./public/assets/script.js")
+        .then((fd) => {
+          res.writeHead(200, { "Content-Type": "application/javascript" });
+          fd.createReadStream()
+            .on("data", (chunk) => {
+              res.write(chunk);
+            })
+            .on("close", () => {
+              res.end();
+            })
+            .on("error", (error) => {
+              res.writeHead(500, { "Content-Type": "text/plain" });
+              res.end("Internal Server Error");
+            });
+        })
+        .catch((error) => {
+          res.writeHead(500, { "Content-Type": "text/plain" });
+          res.end("Internal Server Error");
+        });
     },
     "/blogs": (req, res) => {
       res.writeHead(200, {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
       });
       res.end(
         JSON.stringify({
