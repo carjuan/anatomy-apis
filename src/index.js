@@ -89,6 +89,7 @@ const handlers = {
         // We are done reading the request content-length
         // then we can now parse the body
         console.log(requestBody);
+        res.end("we just got your body request. Blogs will be sent later");
       });
       console.log(req.url);
     },
@@ -119,7 +120,7 @@ const requestHandler = (req, res) => {
     res.writeHead(404, { "Content-Type": "application/json" });
     return res.end(
       JSON.stringify({
-        data: `Bad request path ${PATH}`,
+        response: `Recevied request ${REQUEST}, however resource: '${PATH}' does not exist`,
       }),
     );
   }
